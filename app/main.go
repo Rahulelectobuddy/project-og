@@ -9,6 +9,7 @@ import (
 // global IP table to store user
 var Ip_table []string
 var Port int = 13370
+var UserName string = ""
 
 func taskClientDetails() {
 	for {
@@ -22,17 +23,16 @@ func taskClientDetails() {
 }
 
 func main() {
-	userName := ""
 
 	//users
 	fmt.Print("Total users ", Ip_table)
 
 	//if no userName present ask for that
-	if userName == "" {
+	if UserName == "" {
 		fmt.Println("No name please set \nEnter your name :")
-		fmt.Scanln(&userName)
+		fmt.Scanln(&UserName)
 	}
-	fmt.Println("Your username is", userName)
+	fmt.Println("Your username is", UserName)
 	// now set userName in header
 
 	// now create a list of users who are available in this subnet.

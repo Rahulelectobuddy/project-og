@@ -69,7 +69,7 @@ func List_of_user(port int) {
 	endIP := "255"
 	execludeIp := getLocalIP()
 	// Construct the nmap command with the IP range and port
-	cmd := exec.Command("nmap", "--open", "-p", fmt.Sprintf("%d", port), fmt.Sprintf("%s-%s", startIP, endIP), "--exclude", execludeIp)
+	cmd := exec.Command("nmap", "--open", "-sS", "-p", fmt.Sprintf("%d", port), fmt.Sprintf("%s-%s", startIP, endIP), "--exclude", execludeIp)
 
 	// Capture the command's output
 	var stdout, stderr bytes.Buffer
