@@ -1,41 +1,60 @@
 package main
+
 import (
-    "net"
-    "os"
+	"fmt"
+	"sync"
+	"time"
 )
 
+// global IP table to store user
+var Ip_table []string
+var Port int = 13370
+var UserName string = ""
+
+func taskClientDetails() {
+	for {
+		//create a list of peers with their name
+		List_of_user(Port)
+
+		connectToClient() //connect to each clients
+
+		time.Sleep(time.Duration(5) * time.Second) // Sleep for 1 second before the next iteration
+	}
+}
+
 func main() {
-    strEcho := "Halo"
-    servAddr := "localhost:13370"
-    tcpAddr, err := net.ResolveTCPAddr("tcp", servAddr)
-    if err != nil {
-        println("ResolveTCPAddr failed:", err.Error())
-        os.Exit(1)
-    }
 
-    conn, err := net.DialTCP("tcp", nil, tcpAddr)
-    if err != nil {
-        println("Dial failed:", err.Error())
-        os.Exit(1)
-    }
+	//users
+	fmt.Print("Total users ", Ip_table)
 
-    _, err = conn.Write([]byte(strEcho))
-    if err != nil {
-        println("Write to server failed:", err.Error())
-        os.Exit(1)
-    }
+	//if no userName present ask for that
+	if UserName == "" {
+		fmt.Println("No name please set \nEnter your name :")
+		fmt.Scanln(&UserName)
+	}
+	fmt.Println("Your username is", UserName)
+	// now set userName in header
 
-    println("write to server = ", strEcho)
+	// now create a list of users who are available in this subnet.
+	// user -> who opened the port *13370*
+	// first I should be a user and open the port.
 
-    reply := make([]byte, 1024)
+	// Create a WaitGroup to wait for the goroutine to finish
+	var wg sync.WaitGroup
 
-    _, err = conn.Read(reply)
-    if err != nil {
-        println("Write to server failed:", err.Error())
-        os.Exit(1)
-    }
+	// Add 1 to the WaitGroup for the goroutine
+	wg.Add(1)
 
-    println("reply from server=", string(reply))
+	// Run Open_port in a separate goroutine
+	go func() {
+		defer wg.Done() // Mark the goroutine as done when it finishes
+		Open_port(Port)
+	}()
 
-    conn.Close()
+	// Start the continuous task in a goroutine
+	go taskClientDetails()
+
+	// Wait for the goroutine to finish before exiting
+	wg.Wait()
+
 }
