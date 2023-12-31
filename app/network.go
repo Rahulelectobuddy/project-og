@@ -88,17 +88,17 @@ func List_of_user(port int) {
 	ipAddresses := extractIPAddresses(stdout.String())
 
 	//clear ip_table and allocate again
-	Ip_table = Ip_table[:0]
+	All_users = All_users[:0]
 
 	if len(ipAddresses) == 0 {
 		fmt.Println("no clients found")
 	} else {
 		for _, ip := range ipAddresses {
-			Ip_table = addIfNotExists(Ip_table, ip)
+			All_users = addIfNotExists(All_users, ip)
 		}
 
 		println("total users ")
-		for _, eachIp := range Ip_table {
+		for _, eachIp := range All_users {
 			fmt.Println(eachIp)
 		}
 	}

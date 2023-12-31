@@ -18,12 +18,12 @@ func connectToClient() {
 
 	// loop through each client and check i'm connected or not
 	// else, connect if it fails, leave him 😏
-	if len(Ip_table) == 0 {
+	if len(All_users) == 0 {
 		println("No clients to connect ")
 		return
 	}
 
-	for _, eachIp := range Ip_table {
+	for _, eachIp := range All_users {
 		println("eachIp from comm ", eachIp)
 		clientAddr := eachIp + ":" + strconv.Itoa(Port)
 		tcpAddr, err := net.ResolveTCPAddr("tcp", clientAddr)

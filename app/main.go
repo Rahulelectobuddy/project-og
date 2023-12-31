@@ -7,7 +7,7 @@ import (
 )
 
 // global IP table to store user
-var Ip_table []string
+var All_users []string
 var Port int = 13370
 var UserName string = ""
 
@@ -25,7 +25,7 @@ func taskClientDetails() {
 func main() {
 
 	//users
-	fmt.Print("Total users ", Ip_table)
+	fmt.Print("Total users ", All_users)
 
 	//if no userName present ask for that
 	if UserName == "" {
